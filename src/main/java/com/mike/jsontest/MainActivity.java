@@ -11,6 +11,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +46,40 @@ public class MainActivity extends AppCompatActivity {
         mRequestQueue = Volley.newRequestQueue(this);
 // parse Json
         parseJson();
+        //parseGson
+
+        parseGson();
+
     }
+
+    private void parseGson(){
+
+        String jsonStr = "{\"name\": \"A\", \"address\":\"XYZ\"}";
+
+// You can convert your Json string to JsonObject as below
+
+        Gson gson = new Gson();
+        JsonElement element = gson.fromJson (jsonStr, JsonElement.class);
+        JsonObject jsonObj = element.getAsJsonObject();
+
+
+// If you can define a POJO class for your Json, you can convert json to java object
+
+        class MyData {
+            private String name;
+            private String address;
+            //Setters and Getters
+        }
+
+        gson = new Gson();
+        MyData data = gson.fromJson(jsonStr, MyData.class);
+
+
+    }
+
+
+
+
 // pulling json string  and adding to the object
     private void parseJson(){
         String url = "https://mantraapp.000webhostapp.com/wp-json/wp-api-menus/v2/menus/7?";
